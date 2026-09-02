@@ -44,7 +44,7 @@ services:
       - "8020:8020"
     restart: always
     environment:
-      STORAGE_DB_HOST: postgres
+      STORAGE_DB_HOST: lcw-pg
       STORAGE_DB_NAME: wash
       STORAGE_DB_USER: wash
       STORAGE_DB_PASS: adm-pass-test
