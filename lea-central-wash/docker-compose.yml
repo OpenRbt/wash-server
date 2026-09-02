@@ -44,7 +44,7 @@ services:
       - "8020:8020"
     restart: always
     environment:
-      STORAGE_DB_HOST: lcw-pg
+      STORAGE_DB_HOST: postgres
       STORAGE_DB_NAME: wash
       STORAGE_DB_USER: wash
       STORAGE_DB_PASS: adm-pass-test
@@ -66,9 +66,12 @@ services:
       washnet:
         ipv4_address: 10.5.0.10
     depends_on:
-      - postgres
-      - hal
-      - minio
+      postgres:
+        condition: service_healthy
+      hal:
+        condition: service_started
+      minio:
+        condition: service_started
     device_cgroup_rules:
       - "c 188:* rmw"
     volumes:
@@ -109,7 +112,8 @@ services:
     group_add:
       - dialout
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     logging:
       driver: "json-file"
       options:
@@ -122,7 +126,7 @@ services:
     container_name: lcw-pg
     restart: always
     volumes:
-      - /var/db:/var/lib/postgresql/data
+      - pg_db_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: wash
       POSTGRES_USER: wash
