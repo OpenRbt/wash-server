@@ -1,0 +1,50 @@
+name: Check compose image platforms
+
+# Verifies that image tags referenced in docker-compose files exist in their
+# registry and provide the required multi-arch platforms
+# (linux/amd64, linux/arm64, linux/arm/v7). Runs on PRs that touch a compose
+# file and is intended to be a required status check.
+on:
+  pull_request:
+    paths:
+      - "**/docker-compose.yml"
+      - "**/docker-compose.yaml"
+      - ".github/workflows/check-compose-images.yml"
+      - ".github/scripts/check_compose_images.py"
+  workflow_dispatch:
+    inputs:
+      files:
+        description: "Space-separated compose files to check (default: both)"
+        required: false
+        default: ""
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install PyYAML
+        run: pip install --no-input pyyaml
+
+      - name: Resolve compose files to check
+        id: files
+        run: |
+          if [ -n "${{ github.event.inputs.files }}" ]; then
+            echo "list=${{ github.event.inputs.files }}" >> "$GITHUB_OUTPUT"
+          else
+            # Check both known compose files that exist in the PR.
+            files=""
+            for f in lea-central-wash/docker-compose.yml; do
+              [ -f "$f" ] && files="$files $f"
+            done
+            echo "list=$files" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check image tags and platforms
+        run: python3 .github/scripts/check_compose_images.py ${{ steps.files.outputs.list }}
