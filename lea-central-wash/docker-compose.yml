@@ -66,9 +66,12 @@ services:
       washnet:
         ipv4_address: 10.5.0.10
     depends_on:
-      - postgres
-      - hal
-      - minio
+      postgres:
+        condition: service_healthy
+      hal:
+        condition: service_started
+      minio:
+        condition: service_started
     device_cgroup_rules:
       - "c 188:* rmw"
     volumes:
@@ -109,7 +112,8 @@ services:
     group_add:
       - dialout
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     logging:
       driver: "json-file"
       options:
