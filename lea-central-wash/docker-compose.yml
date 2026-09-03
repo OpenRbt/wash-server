@@ -147,24 +147,24 @@ services:
         max-file: "3"
         compress: "true"
   
-  prometheus:
-    image: r.open-rbt.com/prometheus:v2.45.6
-    container_name: prometheus
-    restart: always
-    networks:
-      washnet:
-        ipv4_address: 10.5.0.21
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus_data:/prometheus
-    ports:
-      - "9090:9090" 
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "2"
-        compress: "true"
+#  prometheus:
+#    image: r.open-rbt.com/prometheus:v2.45.6
+#    container_name: prometheus
+#    restart: always
+#    networks:
+#      washnet:
+#        ipv4_address: 10.5.0.21
+#    volumes:
+#      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+#      - prometheus_data:/prometheus
+#    ports:
+#      - "9090:9090" 
+#    logging:
+#      driver: "json-file"
+#      options:
+#        max-size: "10m"
+#        max-file: "2"
+#        compress: "true"
 
   updater:
     image: r.open-rbt.com/updater:0.0.4
