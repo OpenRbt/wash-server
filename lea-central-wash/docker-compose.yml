@@ -94,7 +94,7 @@ services:
         compress: "true"
 
   online-kasse:
-    image: r.open-rbt.com/lcw-kasse:v0.0.1
+    image: r.open-rbt.com/lcw-kasse:v0.0.8
     container_name: kasse
     ports:
       - "8443:8443"
@@ -232,7 +232,7 @@ services:
 #        compress: "true"
 
   mobile-wash-control-web:
-    image: r.open-rbt.com/mobile-wash-control-web:v0.0.18
+    image: r.open-rbt.com/mobile-wash-control-web:v0.0.19
     container_name: wash-control
     restart: always
     networks:
