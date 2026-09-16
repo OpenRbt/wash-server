@@ -167,7 +167,7 @@ services:
 #        compress: "true"
 
   updater:
-    image: r.open-rbt.com/updater:0.0.4
+    image: r.open-rbt.com/updater:0.0.5
     container_name: updater
     restart: always
     environment:
