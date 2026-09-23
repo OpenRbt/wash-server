@@ -17,6 +17,10 @@ services:
     ports:
       - "8099:8099"
     restart: always
+    environment:
+      DISABLE_INPUT_CHECK: 1
+      MOTOR_STOP_OLD_MS: 2000
+      MOTOR_STOP_NEW_MS: 1000
     cap_add:
       - ALL
     networks:
@@ -38,7 +42,7 @@ services:
         compress: "true"
  
   storage:
-    image: r.open-rbt.com/lcw-storage:v0.0.65
+    image: r.open-rbt.com/lcw-storage:v0.0.66
     container_name: storage
     ports:
       - "8020:8020"
