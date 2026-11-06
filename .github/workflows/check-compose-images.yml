@@ -2,10 +2,17 @@ name: Check compose image platforms
 
 # Verifies that image tags referenced in docker-compose files exist in their
 # registry and provide the required multi-arch platforms
-# (linux/amd64, linux/arm64, linux/arm/v7). Runs on PRs that touch a compose
-# file and is intended to be a required status check.
+# (linux/amd64, linux/arm64, linux/arm/v7). Runs on PRs and on pushes to main
+# that touch a compose file, and is intended to be a required status check.
 on:
   pull_request:
+    paths:
+      - "**/docker-compose.yml"
+      - "**/docker-compose.yaml"
+      - ".github/workflows/check-compose-images.yml"
+      - ".github/scripts/check_compose_images.py"
+  push:
+    branches: [main]
     paths:
       - "**/docker-compose.yml"
       - "**/docker-compose.yaml"

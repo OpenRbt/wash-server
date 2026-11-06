@@ -5,8 +5,9 @@ registry and provide the required multi-arch platforms.
 Required platforms: linux/amd64, linux/arm64, linux/arm/v7
 
 Only images hosted on the internal registries (registry.open-rbt.com,
-r.open-rbt.com) are checked. External images (e.g. Docker Hub) and mutable
-``:latest`` tags are skipped with a notice.
+r.open-rbt.com) are checked. External images (e.g. Docker Hub) are skipped
+with a notice. Mutable ``:latest`` tags are checked too (e.g. minio:latest,
+which is rebuilt multi-arch in-repo).
 
 Exits non-zero if any required image is missing its tag or any required
 platform. Emits GitHub Actions ``::error::`` annotations for failures and
@@ -23,7 +24,6 @@ import yaml
 REQUIRED_PLATFORMS = ["linux/amd64", "linux/arm64", "linux/arm/v7"]
 # Only these registries are checked; everything else is reported as skipped.
 INTERNAL_REGISTRIES = ("registry.open-rbt.com", "r.open-rbt.com")
-MUTABLE_TAGS = ("latest",)
 
 # Accept OCI index, Docker manifest list, and single manifests so we can tell
 # a missing tag (404) from a single-arch image (no manifest list).
@@ -112,8 +112,6 @@ def check_image(file, service, image):
     host, repo, tag = parse_ref(image)
     if host not in INTERNAL_REGISTRIES:
         return ("skip-external", f"skip (external registry {host})")
-    if tag in MUTABLE_TAGS:
-        return ("skip-mutable", f"skip (mutable tag :{tag})")
 
     status, manifest = fetch_manifest(host, repo, tag)
     if status == 404:
