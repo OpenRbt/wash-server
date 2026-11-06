@@ -12,7 +12,7 @@ volumes:
 
 services:
   hal:
-    image: r.open-rbt.com/lcw-hal:v0.0.26
+    image: r.open-rbt.com/lcw-hal:v0.0.28
     container_name: hal
     ports:
       - "8099:8099"
@@ -252,7 +252,7 @@ services:
         compress: "true"
 
   minio:
-    image: minio/minio:latest
+    image: r.open-rbt.com/minio:latest
     container_name: minio
     command: server /data --console-address ":9001"
     restart: always
