@@ -42,7 +42,7 @@ services:
         compress: "true"
  
   storage:
-    image: r.open-rbt.com/lcw-storage:v0.0.66
+    image: r.open-rbt.com/lcw-storage:v0.0.68
     container_name: storage
     ports:
       - "8020:8020"
@@ -236,7 +236,7 @@ services:
 #        compress: "true"
 
   mobile-wash-control-web:
-    image: r.open-rbt.com/mobile-wash-control-web:v0.0.19
+    image: r.open-rbt.com/mobile-wash-control-web:v0.0.20
     container_name: wash-control
     restart: always
     networks:
